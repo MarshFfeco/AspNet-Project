@@ -276,3 +276,5 @@ __pycache__/
 # End of https://www.toptal.com/developers/gitignore/api/aspnetcore
 /ProfessorHelp/ProfessorHelp.csproj
 /ProfessorHelp/appsettings.json
+/ProfessorHelp/appsettings.json
+/ProfessorHelp/appsettings.Development.json
