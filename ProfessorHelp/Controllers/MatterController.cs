@@ -1,90 +1,22 @@
-﻿using AutoMapper;
-using Microsoft.AspNetCore.Mvc;
-using ProfessorHelp.Dto;
-using ProfessorHelp.Interfaces;
-using ProfessorHelp.Models.Entity;
+﻿using Microsoft.AspNetCore.Mvc;
+using ProfessorHelp.Filter;
+using ProfessorHelp.Shared.Comunication.Request.Matter;
+using ProfessorHelp.Shared.Comunication.Response.Matter;
+using ProfessorHelp.UseCase.Matter.Interfaces;
 
-namespace ProfessorHelp.Controllers
+namespace ProfessorHelp.Controllers;
+
+[ApiController]
+[Route("api/v1/[controller]")]
+[ServiceFilter(typeof(ProfessorAuth))]
+public class MatterController : ControllerBase
 {
-    [ApiController]
-    [Route("api/v1/[controller]")]
-    public class MatterController : ControllerBase
+    [HttpPost]
+    [ProducesResponseType(typeof(ResponseMatterCreate), StatusCodes.Status201Created)]
+    public async Task<IActionResult> Create([FromServices] ICreateMatterUseCase usecase, [FromBody] RequestMatterCreate req)
     {
-        private readonly IMatterRepository _matterRepository;
-        private readonly IMapper _mapper;
+        var response = await usecase.Execute(req);
 
-        public MatterController(IMatterRepository matterRepository, IMapper mapper)
-        {
-            this._matterRepository = matterRepository;
-            this._mapper = mapper;
-        }
-
-        [HttpGet]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<Matter>))]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult> GetAll([FromQuery] int professorId)
-        {
-            var matters = _mapper.Map<List<MatterDto>>(await _matterRepository.GetAll(professorId));
-
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            if (matters.Count() <= 0)
-            {
-                return NotFound();
-            }
-
-            return Ok(matters);
-        }
-
-        [HttpGet("id/{id}")]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<Matter>))]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult> GetMatters([FromQuery] int professorId, int id) 
-        {
-            var matters = _mapper.Map<List<MatterDto>>(await _matterRepository.GetMatters(id, professorId));
-
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            if (matters.Count() <= 0)
-            {
-                return NotFound();
-            }
-
-            return Ok(matters);
-        }
-
-        [HttpGet("{title}")]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<Matter>))]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult> GetMatters([FromQuery] int professorId ,string title) 
-        {
-            var matters = _mapper.Map<List<MatterDto>>(await _matterRepository.GetMatters(title, professorId));
-
-            if(!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            if(matters.Count() <= 0)
-            {
-                return NotFound();
-            }
-            
-            return Ok(matters);
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> CreateMatter([FromQuery] int professor_id ,[FromBody] MatterDto matter)
-        {
-            bool newMatter = await _matterRepository.CreateMatter(matter, professor_id);
-
-            return Ok(newMatter);
-        }
+        return Created(string.Empty, response);
     }
 }

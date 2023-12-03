@@ -1,4 +1,6 @@
-﻿namespace ProfessorHelp.Models.Entity;
+﻿using ProfessorHelp.Models.Enum;
+
+namespace ProfessorHelp.Models.Entity;
 
 public abstract class BaseModel
 {
@@ -7,7 +9,7 @@ public abstract class BaseModel
     public required string Last_Name { get; set; }
     public required string Email { get; set; }
     public required string Password { get; set; }
-    public required string Sex { get; set; }
+    public required Sex Sex { get; set; }
     public required DateTime Created_At { get; set; } = DateTime.UtcNow;
     public required DateTime Updated_At { get; set; } = DateTime.UtcNow;
 }

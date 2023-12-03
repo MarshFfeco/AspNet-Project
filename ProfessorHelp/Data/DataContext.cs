@@ -14,10 +14,11 @@ public class DataContext : DbContext
 
     public DbSet<Professor> professor { get; set; }
     public DbSet<Student> student { get; set; }
+    public DbSet<GenerateStudent> generateStudents { get; set; }
+    public DbSet<GenerateStudentMatter> generateStudentMatters { get; set; }
     public DbSet<Exercise> exercise { get; set; }
     public DbSet<Response> response { get; set; }
     public DbSet<Matter> matter { get; set; }
-
     public DbSet<StudentMatter> studentMatter { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -45,6 +46,11 @@ public class DataContext : DbContext
             .WithOne(sm => sm.Matter)
             .HasForeignKey(sm => sm.Matter_Id)
             .OnDelete(DeleteBehavior.Cascade);
+
+            entity.HasMany(m => m.GenerateStudentMatter)
+            .WithOne(gs => gs.Matter)
+            .HasForeignKey(gs => gs.Matter_Id)
+            .OnDelete(DeleteBehavior.Cascade);
         });
 
         modelBuilder.Entity<Exercise>(entity =>
@@ -66,6 +72,21 @@ public class DataContext : DbContext
             .WithOne(sm => sm.Student)
             .HasForeignKey(sm => sm.Student_Id) 
             .OnDelete(DeleteBehavior.Cascade);
+        });
+
+        modelBuilder.Entity<GenerateStudent>(entity =>
+        {
+            entity.HasKey(g => g.Id);
+
+            entity.HasMany(g => g.GenerateStudentMatter)
+            .WithOne(gs => gs.GenerateStudent)
+            .HasForeignKey(gs => gs.Generate_Student_Id)
+            .OnDelete(DeleteBehavior.Cascade);
+        });
+
+        modelBuilder.Entity<GenerateStudentMatter>(entity =>
+        {
+            entity.HasKey(g => g.Id);
         });
 
         modelBuilder.Entity<StudentMatter>(entity =>

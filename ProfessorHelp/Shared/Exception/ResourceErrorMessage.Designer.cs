@@ -61,6 +61,15 @@ namespace ProfessorHelp.Shared.Exception {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Current password invalid..
+        /// </summary>
+        public static string CURRENT_PASSWORD_INVALID {
+            get {
+                return ResourceManager.GetString("CURRENT_PASSWORD_INVALID", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The email is already registered in the database..
         /// </summary>
         public static string EMAIL_ALREADY_EXIST {
@@ -106,11 +115,29 @@ namespace ProfessorHelp.Shared.Exception {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Incorrect email or password..
+        /// </summary>
+        public static string LOGIN_INVALID {
+            get {
+                return ResourceManager.GetString("LOGIN_INVALID", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The password must be at least 8 characters long..
         /// </summary>
         public static string PASSWORD_EMPTY {
             get {
                 return ResourceManager.GetString("PASSWORD_EMPTY", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Professor unauthorized..
+        /// </summary>
+        public static string PROFESSOR_UNAUTHORIZED {
+            get {
+                return ResourceManager.GetString("PROFESSOR_UNAUTHORIZED", resourceCulture);
             }
         }
         
@@ -129,6 +156,15 @@ namespace ProfessorHelp.Shared.Exception {
         public static string SEX_INVALID {
             get {
                 return ResourceManager.GetString("SEX_INVALID", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Login again required..
+        /// </summary>
+        public static string TOKEN_EXPIRED {
+            get {
+                return ResourceManager.GetString("TOKEN_EXPIRED", resourceCulture);
             }
         }
         

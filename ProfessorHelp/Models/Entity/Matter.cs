@@ -7,10 +7,10 @@ public class Matter
 {
     public long Id { get; set; }
     public required string Title { get; set; }
-    public required int Module { get; set; }
-    public required string Classroom { get; set; }
-    public required string Shift { get; set; }
-    public required string Code { get; set; }
+    public int? Module { get; set; }
+    public string? Classroom { get; set; }
+    public string? Shift { get; set; }
+    public string? Code { get; set; }
 
     #region Link Professor
     public Professor Professor { get; } = null!;
@@ -23,5 +23,9 @@ public class Matter
 
     #region Link StudentMatter
     public ICollection<StudentMatter>? StudentMatters { get; }
+    #endregion
+
+    #region Link GenerateStudentMatter
+    public ICollection<GenerateStudentMatter>? GenerateStudentMatter { get; }
     #endregion
 }

@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
-using ProfessorHelp.Shared.Comunication.Response;
+using ProfessorHelp.Shared.Comunication.Response.Professor;
 using ProfessorHelp.Shared.Exception.ExceptionBase;
 using System.Net;
 
@@ -25,6 +25,10 @@ public class ExceptionFilter : IExceptionFilter
         {
             ProcessValidationException(context);
         }
+        else if (context.Exception is LoginInvalidException)
+        {
+            ProcessInvalidLoginException(context);
+        }
     }
 
     private void ProcessValidationException(ExceptionContext context)
@@ -39,6 +43,18 @@ public class ExceptionFilter : IExceptionFilter
         context.Result = new ObjectResult(new ResponseErro(errException.MsgsError));
     }
 
+    private void ProcessInvalidLoginException(ExceptionContext context)
+    {
+        var errException = context.Exception as LoginInvalidException;
+
+        if (errException is null)
+        {
+            throw new ArgumentException("Without Message!");
+        }
+
+        context.HttpContext.Response.StatusCode = (int)HttpStatusCode.Unauthorized;
+        context.Result = new ObjectResult(new ResponseErro(errException.Message));
+    }
     private void SendUnknownException(ExceptionContext context)
     {
         context.HttpContext.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
